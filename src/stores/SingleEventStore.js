@@ -48,7 +48,7 @@ export default class SingleEventStore {
         const config = {
             headers: {"Authorization": "Token " + Cookies.get('auth-token')},
         };
-        axios.patch('http://api.my-events.site/api/v1/events/' + this.event.id, data, config).then(this.succeedEventEdit).catch(this.failEventEdit);
+        axios.patch('http://api.my-events.site/api/v1/events/' + this.event.id + '/', data, config).then(this.succeedEventEdit).catch(this.failEventEdit);
     }
 
     @action.bound succeedEventEdit(response) {

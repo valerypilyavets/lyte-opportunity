@@ -1,6 +1,7 @@
 import React from 'react';
 import {inject, observer} from 'mobx-react';
 import {Modal, Form, Col, Row, Button} from 'react-bootstrap';
+import Loading from "./common/Loading";
 
 @inject("singleEventStore")
 @observer
@@ -65,37 +66,42 @@ export default class EditEventModal extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     <Form noValidate validated={this.state.validated} onSubmit={this.onSubmit}>
-                        <Form.Group as={Row} controlId="name">
+                        <Form.Group as={Row}>
                             <Form.Label column sm={2}>
                                 Name
                             </Form.Label>
                             <Col sm={10}>
-                                <Form.Control required type="text" onChange={this.handleInputChange} name="name"
+                                <Form.Control disabled={this.props.singleEventStore.status === 'editing'} required type="text" onChange={this.handleInputChange} name="name"
                                               value={this.state.name}/>
                                 <Form.Control.Feedback type="invalid">
                                     Event name is required
                                 </Form.Control.Feedback>
                             </Col>
                         </Form.Group>
-                        <Form.Group as={Row} controlId="uri">
+                        <Form.Group as={Row}>
                             <Form.Label column sm={2}>
                                 URI
                             </Form.Label>
                             <Col sm={10}>
-                                <Form.Control type="text" onChange={this.handleInputChange} name="uri"
+                                <Form.Control disabled={this.props.singleEventStore.status === 'editing'} type="text" onChange={this.handleInputChange} name="uri"
                                               value={this.state.uri}/>
                             </Col>
                         </Form.Group>
-                        <Form.Group as={Row} controlId="logoUri">
+                        <Form.Group as={Row}>
                             <Form.Label column sm={2}>
                                 Image URI
                             </Form.Label>
                             <Col sm={10}>
-                                <Form.Control type="text" onChange={this.handleInputChange} name="logoUri"
+                                <Form.Control disabled={this.props.singleEventStore.status === 'editing'} type="text" onChange={this.handleInputChange} name="logoUri"
                                               value={this.state.logoUri}/>
                             </Col>
                         </Form.Group>
-                        <Button block type="submit" variant="danger">Save</Button>
+
+                        <Loading display={this.props.singleEventStore.status === 'editing'}/>
+                        <div style={{display: this.props.singleEventStore.status !== 'editing' ? "block" : "none"}}>
+                            <Button block type="submit" variant="danger">Save</Button>
+                        </div>
+
                     </Form>
                 </Modal.Body>
             </Modal>
